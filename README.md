@@ -10,9 +10,30 @@
 
 This repo holds **only the patch** — the scripts that filter ads and rebuild the app. It does **not** contain YouTube itself or a built APK. You can build the APK yourself from the official APK, or just download the ready-built one below.
 
+## Contents
+
+- [Download](#download)
+- [What you get](#what-you-get)
+- [Stock vs this build](#stock-vs-this-build)
+- [Install — 3 steps](#install--3-steps)
+- [How it works](#how-it-works--the-short-version)
+- [Build it yourself](#build-it-yourself)
+- [FAQ](#faq)
+- [Verified](#verified)
+- [Limitations](#limitations--read-this)
+- [Files](#files)
+- [License](#license)
+
 ## Download
 
 [⬇ **Download youtube-tv-noads-7.31.300-v3.apk**](https://www.dropbox.com/scl/fi/9srti86ijc2zn7ngu816y/youtube-tv-noads-7.31.300-v3.apk?rlkey=hgo5xd70qgwicy4z32grgh64e&st=v0hlwl2w&dl=1)
+
+| | |
+|---|---|
+| Version | 7.31.300 (v3 build) |
+| Size | 75 MB (75,363,053 bytes) |
+| SHA-256 | `010f41dd37fb3ec69b6350a3dba21fe514f559cf337980f494a56495b159ae07` |
+| Package | `local.bishal.ytv.noads` |
 
 > The APK is hosted on Dropbox, not in this repo. For personal use on your own TV only.
 
@@ -26,6 +47,18 @@ This repo holds **only the patch** — the scripts that filter ads and rebuild t
 | ✅ **Remembers your profile** | Skips the "Who's watching?" picker from the second launch. |
 | ✅ **Installs alongside stock** | The original YouTube TV app stays untouched. |
 
+## Stock vs this build
+
+| | Stock YouTube TV | This build |
+|---|---|---|
+| Ads in videos | Yes | **No** |
+| App name & icon | YouTube | YouTube (identical) |
+| Home screen & playback | Same | Same |
+| "Who's watching?" picker | Asks almost every launch | **Skipped from 2nd launch** |
+| Loading indicator | "Video is loading..." text | **Centred spinner, no text** |
+| Sign-in | Google account | Google account (unchanged) |
+| Paid features / Premium | — | Not unlocked (ads only) |
+
 ## Install — 3 steps
 
 1. **Download** the APK above.
@@ -35,16 +68,18 @@ This repo holds **only the patch** — the scripts that filter ads and rebuild t
    ```
 3. **Open YouTube.** The first launch still asks "Who's watching?" once — pick your account, and from the next launch it goes straight in.
 
-## What it doesn't do
-
-- No paid features, no YouTube Premium unlock. Ads only.
-- Doesn't touch playback, DRM, networking, or sign-in. You still sign in with your own Google account.
-- Doesn't change the stock YouTube app.
-- Ads may return if YouTube changes its app — the patch would need updating. Server-stitched ads (baked into the video stream itself) can't be removed by a client-side filter.
-
 ## How it works — the short version
 
 YouTube TV is a web app running inside the TV app (Cobalt). This patch injects a small script into that web app before it loads. The script removes ad entries from YouTube's own data, shows a spinner while videos stall, and remembers your profile pick.
+
+```mermaid
+flowchart LR
+    A[Official APK<br/>7.31.300] --> B[Inject JS payload<br/>into libchrobalt.so]
+    B --> C[Ad filter<br/>removes ad data]
+    B --> D[Spinner +<br/>profile-remember]
+    C --> E[Ad-free YouTube TV<br/>on your TV]
+    D --> E
+```
 
 <details>
 <summary><b>Full technical detail</b></summary>
@@ -195,6 +230,29 @@ ytv-patch/
    The `-r` keeps the app's data, so an update installs over the previous build. The first launch after installing the profile-remember build still shows the "Who's watching?" picker once — pick your account, and from the next launch it is skipped.
 
 </details>
+
+## FAQ
+
+**Do I need to root my TV?**
+No. The app installs like any sideloaded APK (over ADB). No root needed.
+
+**Will the stock YouTube app still work?**
+Yes. This build installs alongside it under a different package name, so the original stays untouched.
+
+**Does it unlock YouTube Premium?**
+No. It only removes ads. No paid features are unlocked.
+
+**Will my Google account get banned?**
+Using a modified app goes against YouTube's terms, so there is a theoretical risk. In practice Google does not go after individual TV users for this, but there is no guarantee — use it on your own TV and your own account.
+
+**Will it work on my TV?**
+It targets YouTube TV 7.31.300 on 32-bit ARM (ARMv7) Android TV, and it is proven on a Changhong AI PONT (Android 11). It should work on other 32-bit ARM Android TVs that can run that version, but it has only been tested on that one TV.
+
+**How do I update it?**
+Install the newer build over the old one with `adb install -r`. Keep the same signing key, or the TV will refuse the update.
+
+**What if ads come back?**
+YouTube can change its app or servers at any time. If the filter stops matching, ads may return until the patch is updated.
 
 ## Verified
 
