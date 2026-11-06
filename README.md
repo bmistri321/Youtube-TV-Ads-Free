@@ -9,6 +9,14 @@ repackage and verify the result. It does **not** contain YouTube itself,
 and it does **not** contain any built APK. You build the APK yourself,
 from the official APK, on your own machine, with your own signing key.
 
+## Download
+
+A ready-built APK (v3 — version 7.31.300, with the profile-remember feature) is available here:
+
+[⬇ Download youtube-tv-noads-7.31.300-v3.apk](https://www.dropbox.com/scl/fi/9srti86ijc2zn7ngu816y/youtube-tv-noads-7.31.300-v3.apk?rlkey=hgo5xd70qgwicy4z32grgh64e&st=v0hlwl2w&dl=1)
+
+The APK is hosted on Dropbox, not in this repository — the repo itself holds only the patch source, so you can rebuild it yourself. For personal use on your own TV only.
+
 ## What it produces
 
 An installable Android TV app (`local.bishal.ytv.noads`) that looks and
