@@ -1,0 +1,28 @@
+# Built APKs and anything that contains Google's proprietary app
+*.apk
+*.idsig
+base/
+work/
+out/
+build/
+
+# Signing keys — never commit these
+.signing/
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# macOS
+.DS_Store
